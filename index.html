@@ -7,43 +7,8 @@
 </head>
 <body>
     <h1>💧 Water Reminder</h1>
-    <p>This page will remind you to drink water every 10 minutes.</p>
-    <script>
-        function waterReminder(intervalInSeconds) {
-            const intervalInMs = intervalInSeconds * 1000;
+    <p>This page will remind you to drink water every 2 minutes (120 seconds).</p>
 
-            // Request notification permission
-            if (Notification.permission === "default") {
-                Notification.requestPermission().then(permission => {
-                    if (permission !== "granted") {
-                        alert("Please allow notifications for the water reminder to work.");
-                    }
-                });
-            }
-
-            console.log("Water reminder is set! You'll be reminded every " + intervalInSeconds + " seconds.");
-
-            // Set the interval for notifications
-            const reminder = setInterval(() => {
-                if (Notification.permission === "granted") {
-                    new Notification("💧 Water Reminder", {
-                        body: "Time to drink water! Stay hydrated. 😊",
-                        icon: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Water-drop-icon.png", // New working icon URL
-                    });
-                } else {
-                    alert("💧 Time to drink water! Stay hydrated. 😊");
-                }
-            }, intervalInMs);
-
-            // Return a function to stop the reminder
-            return () => {
-                clearInterval(reminder);
-                console.log("Water reminder stopped.");
-            };
-        }
-
-        // Start the reminder for every 10 minutes (600 seconds)
-        waterReminder(60);
-    </script>
+    <script src="app.js"></script>
 </body>
-</html> 
+</html>
