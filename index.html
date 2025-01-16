@@ -7,11 +7,12 @@
 </head>
 <body>
     <h1>💧 Water Reminder</h1>
-    <p>This page will remind you to drink water every 30 minutes.</p>
+    <p>This page will remind you to drink water every 2 seconds for debugging purposes.</p>
     <script>
-        function waterReminder(intervalInMinutes) {
-            const intervalInMs = intervalInMinutes * 60 * 1000;
+        function waterReminder(intervalInSeconds) {
+            const intervalInMs = intervalInSeconds * 1000;
 
+            // Request notification permission
             if (Notification.permission === "default") {
                 Notification.requestPermission().then(permission => {
                     if (permission !== "granted") {
@@ -20,27 +21,29 @@
                 });
             }
 
-            console.log("Water reminder is set! You'll be reminded every " + intervalInMinutes + " minutes.");
+            console.log("Water reminder is set! You'll be reminded every " + intervalInSeconds + " seconds.");
 
+            // Set the interval for notifications
             const reminder = setInterval(() => {
                 if (Notification.permission === "granted") {
                     new Notification("💧 Water Reminder", {
                         body: "Time to drink water! Stay hydrated. 😊",
-                        icon: "https://example.com/water-icon.png",
+                        icon: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Water-drop-icon.png", // New working icon URL
                     });
                 } else {
                     alert("💧 Time to drink water! Stay hydrated. 😊");
                 }
             }, intervalInMs);
 
+            // Return a function to stop the reminder
             return () => {
                 clearInterval(reminder);
                 console.log("Water reminder stopped.");
             };
         }
 
-        // Start the reminder for every 30 minutes
-        waterReminder(0);
+        // Start the reminder for every 2 seconds
+        waterReminder(2);
     </script>
 </body>
 </html>
