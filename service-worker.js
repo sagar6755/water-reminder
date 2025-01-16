@@ -20,6 +20,7 @@ self.addEventListener('push', function(event) {
         body: event.data ? event.data.text() : 'Here is a default message.',
         icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Water-drop-icon.png',
         badge: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Water-drop-icon.png',
+        sound: 'assets/notification-sound.mp3', // Relative path to the sound file
     };
 
     event.waitUntil(
@@ -31,6 +32,6 @@ self.addEventListener('push', function(event) {
 self.addEventListener('notificationclick', function(event) {
     event.notification.close();
     event.waitUntil(
-        clients.openWindow('https://yourwebsite.com') // Replace with your actual website URL
+        clients.openWindow('https://sagar6755.github.io/water-reminder/') // Replace with your actual website URL
     );
 });
