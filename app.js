@@ -19,17 +19,32 @@ if ('serviceWorker' in navigator && 'Notification' in window) {
         }
     });
 
-    // Start the reminder for every 2 minutes (120 seconds)
-    setInterval(function() {
-        if (Notification.permission === 'granted') {
-            navigator.serviceWorker.ready.then(function(registration) {
-                registration.showNotification('💧 Water Reminder', {
-                    body: 'Time to drink water! Stay hydrated. 😊',
-                    icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Water-drop-icon.png',
-                }).catch(function(error) {
-                    console.error('Failed to show notification:', error);
+    // Start the reminder for every 30 minutes (1800000 ms) between 7 AM and 10 PM IST
+    const checkAndStartReminder = () => {
+        const now = new Date();
+        const indiaTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+        const currentHour = indiaTime.getHours();
+        const currentMinute = indiaTime.getMinutes();
+
+        // If it's between 7 AM and 10 PM IST, start the reminder
+        if (currentHour >= 7 && currentHour < 22) {
+            if (Notification.permission === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                    registration.showNotification('💧 Water Reminder', {
+                        body: 'Time to drink water! Stay hydrated. 😊',
+                        icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Water-drop-icon.png',
+                    }).catch(function(error) {
+                        console.error('Failed to show notification:', error);
+                    });
                 });
-            });
+            }
+        } else {
+            console.log("It's outside the 7 AM - 10 PM window. Notifications will stop.");
+            clearInterval(notificationInterval); // Stop the interval
         }
-    }, 120000); // 120000 ms = 2 minutes
+    };
+
+    // Run the reminder every 30 minutes (1800000 ms) between 7 AM and 10 PM IST
+    const notificationInterval = setInterval(checkAndStartReminder, 1800000); // 1800000 ms = 30 minutes
 }
